@@ -7,7 +7,6 @@ import java.awt.image.DataBufferInt;
 import java.awt.image.BufferStrategy;
 import java.awt.Graphics;
 import javax.swing.JFrame;
-import com.mime.MysterySurvivalWorldGameV2.graphics.Render;
 import com.mime.MysterySurvivalWorldGameV2.graphics.Screen;
 import java.awt.Dimension;
 
@@ -18,7 +17,7 @@ public class Display extends Canvas implements Runnable {
     
     public static int WIDTH = 800;
     public static int HEIGHT = 600;
-    public static final String TITLE = "MysterySurvivalWorldGame Pre-Alpha 0.02";
+    public static final String TITLE = "MysterySurvivalWorldGame Pre-Alpha 0.03";
     
     private Thread thread;
     private boolean running = false;
