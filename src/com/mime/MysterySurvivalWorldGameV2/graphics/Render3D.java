@@ -14,11 +14,11 @@ public class Render3D extends Render{
         
         double floorPosition = 8;
         double ceilingPosition = 8;
-        double rotation = 0; //game.time / 100.0;
+        double rotation = game.controls.rotation; //game.time / 100.0;
         double cosine = Math.cos(rotation);
         double sine = Math.sin(rotation);
-        double forward = 0; //game.time / 10.0;
-        double right = 0; //game.time / 10.0;
+        double forward = game.controls.z; //game.time / 10.0;
+        double right = game.controls.x; //game.time / 10.0;
         
         for (int y=0; y< height; y++){
             double ceiling = (y - height / 2.0) / height;
@@ -33,10 +33,10 @@ public class Render3D extends Render{
             for(int x=0; x< width; x++){
                 double depth = (x - width / 2.0) / height;
                 depth *= z;
-                double xx = depth * cosine + z * sine + right;
-                double yy = z * cosine - depth * sine + forward;
-                int xPix = (int) xx;
-                int yPix = (int) yy;
+                double xx = depth * cosine + z * sine;
+                double yy = z * cosine - depth * sine;
+                int xPix = (int) (xx + right);
+                int yPix = (int) (yy + forward);
                 pixels[x+y*width] = (xPix & 15) * 16  | (yPix & 15) * 16  << 8;
             }
         }

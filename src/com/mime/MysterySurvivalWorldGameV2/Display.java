@@ -6,9 +6,10 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.image.BufferStrategy;
 import java.awt.Graphics;
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import com.mime.MysterySurvivalWorldGameV2.graphics.Screen;
-import java.awt.Dimension;
+import com.mime.MysterySurvivalWorldGameV2.input.InputHandler;
 
 public class Display extends Canvas implements Runnable {
     
@@ -17,7 +18,7 @@ public class Display extends Canvas implements Runnable {
     
     public static int WIDTH = 800;
     public static int HEIGHT = 600;
-    public static final String TITLE = "MysterySurvivalWorldGame Pre-Alpha 0.03";
+    public static final String TITLE = "MysterySurvivalWorldGame Pre-Alpha 0.04";
     
     private Thread thread;
     private boolean running = false;
@@ -25,6 +26,7 @@ public class Display extends Canvas implements Runnable {
     private Game game;
     private BufferedImage img;
     private int[] pixels;
+    private InputHandler input;
     
     public Display(){ 
         Dimension size = new Dimension(WIDTH, HEIGHT);
@@ -35,6 +37,12 @@ public class Display extends Canvas implements Runnable {
         game = new Game();
         img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
+        
+        input = new InputHandler();
+        addKeyListener(input);
+        addMouseListener(input);
+        addFocusListener(input);
+        addMouseMotionListener(input);
     }
     
     private void start(){
@@ -96,7 +104,7 @@ public class Display extends Canvas implements Runnable {
     }
     
     private void tick(){
-        game.tick();
+        game.tick(input.key);
     }
     
     private void render(){
