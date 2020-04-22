@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 import com.mime.MysterySurvivalWorldGameV2.graphics.Render;
 import com.mime.MysterySurvivalWorldGameV2.graphics.Screen;
+import java.awt.Dimension;
 
 public class Display extends Canvas implements Runnable {
     
@@ -21,13 +22,18 @@ public class Display extends Canvas implements Runnable {
     
     private Thread thread;
     private boolean running = false;
-    private Render render;
     private Screen screen;
+    private Game game;
     private BufferedImage img;
     private int[] pixels;
     
     public Display(){ 
+        Dimension size = new Dimension(WIDTH, HEIGHT);
         screen = new Screen(WIDTH, HEIGHT);
+        setPreferredSize(size);
+        setMinimumSize(size);
+        setMaximumSize(size);
+        game = new Game();
         img = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         pixels = ((DataBufferInt)img.getRaster().getDataBuffer()).getData();
     }
@@ -91,7 +97,7 @@ public class Display extends Canvas implements Runnable {
     }
     
     private void tick(){
-        
+        game.tick();
     }
     
     private void render(){
@@ -101,14 +107,14 @@ public class Display extends Canvas implements Runnable {
             return;
         }
         
-        screen.render();
+        screen.render(game);
         
         for(int i = 0; i<WIDTH*HEIGHT; i++){
             pixels[i] = screen.pixels[i];
         }
         
         Graphics g = bs.getDrawGraphics();
-        g.drawImage(img, 0,0, WIDTH, HEIGHT, null);
+        g.drawImage(img, 0,0, WIDTH + 50, HEIGHT + 50, null);
         g.dispose();
         bs.show();
     }
@@ -120,7 +126,7 @@ public class Display extends Canvas implements Runnable {
         frame.pack();
         frame.setTitle(TITLE);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(WIDTH, HEIGHT);
+        //frame.setSize(WIDTH, HEIGHT);
         frame.setResizable(false);
         frame.setVisible(true);
         
