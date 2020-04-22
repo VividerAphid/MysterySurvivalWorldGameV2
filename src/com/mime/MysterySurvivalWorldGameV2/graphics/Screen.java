@@ -22,8 +22,8 @@ public class Screen extends Render{
         for(int i = 0; i< width*height; i++){
             pixels[i]=0;
         }
-        
         render.floor(game);
+        render.renderDistanceLimiter();
         draw(render, 0, 0);
     }
 }
